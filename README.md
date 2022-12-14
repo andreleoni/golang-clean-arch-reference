@@ -12,7 +12,7 @@ curl localhost:8080/customers
 
 # Get Customer
 
-curl localhost:8080/customer/512f08c4-8627-4a5d-b012-d803dc6650f0
+curl localhost:8080/customer/0d48b63d-3222-4cd1-b1e4-ad184a1459de
 
 # Post Customer
 

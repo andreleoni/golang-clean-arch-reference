@@ -24,7 +24,7 @@ func (c Customer) List() ([]*entity.Customer, error) {
 
 func (c Customer) Find(ID string) (*entity.Customer, error) {
 	customer := entity.Customer{ID: ID}
-	err := c.pg.Model(&customer).Select()
+	err := c.pg.Model(&customer).WherePK().Select()
 
 	return &customer, err
 }
