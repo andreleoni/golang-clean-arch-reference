@@ -20,7 +20,7 @@ func (uccfh UseCaseCustomerFindHandler) Handle(icfd InputCustomerFindDTO) (Outpu
 	if err != nil {
 		fmt.Println(err)
 		if err.Error() == "pg: no rows in result set" {
-			return response, fmt.Errorf("not found error")
+			return response, nil
 		}
 
 		return response, err
