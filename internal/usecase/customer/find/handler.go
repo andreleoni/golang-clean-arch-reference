@@ -6,6 +6,10 @@ type UseCaseCustomerFindHandler struct {
 	customerRepository repository.Customer
 }
 
+func NewUseCaseCustomerFindHandler(rc repository.Customer) UseCaseCustomerFindHandler {
+	return UseCaseCustomerFindHandler{customerRepository: rc}
+}
+
 func (uccfh UseCaseCustomerFindHandler) Handle(icfd InputCustomerFindDTO) (OutputCustomerFindDTO, error) {
 	response := OutputCustomerFindDTO{}
 
