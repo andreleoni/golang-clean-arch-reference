@@ -1,8 +1,6 @@
 package entity
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type Customer struct {
 	ID   string

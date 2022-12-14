@@ -10,7 +10,7 @@ func (uccfh UseCaseCustomerFindHandler) Handle(icfd InputCustomerFindDTO) (Outpu
 	response := OutputCustomerFindDTO{}
 
 	result, err := uccfh.customerRepository.Find(icfd.ID)
-	if err == nil {
+	if err != nil {
 		return response, err
 	}
 
