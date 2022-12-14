@@ -3,21 +3,27 @@ package routes
 import (
 	"golang-clean-arch-reference/internal/infraestructure/database/postgres"
 	"golang-clean-arch-reference/internal/infraestructure/persistence/customer"
+	customercreate "golang-clean-arch-reference/internal/usecase/customer/create"
 	customerfind "golang-clean-arch-reference/internal/usecase/customer/find"
+	customerlist "golang-clean-arch-reference/internal/usecase/customer/list"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-type CustomerID struct {
+type FindCustomerID struct {
 	ID string `uri:"id" binding:"required"`
+}
+
+type CreateCustomer struct {
+	Name string `uri:"name" json:"name" binding:"required"`
 }
 
 func CustomerRoutes(routes *gin.Engine) {
 	customerRepository := customer.NewCustomer(postgres.PG)
 
 	routes.GET("/customer/:id", func(c *gin.Context) {
-		customerID := CustomerID{}
+		customerID := FindCustomerID{}
 
 		if err := c.ShouldBindUri(&customerID); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
@@ -36,6 +42,43 @@ func CustomerRoutes(routes *gin.Engine) {
 			c.JSON(http.StatusNotFound, gin.H{"error": "record not found"})
 		} else {
 			c.JSON(http.StatusOK, gin.H{"id": result.ID, "name": result.Name})
+		}
+	})
+
+	routes.POST("/customer", func(c *gin.Context) {
+		createCustomer := CreateCustomer{}
+
+		if err := c.ShouldBind(&createCustomer); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
+			return
+		}
+
+		icfd := customercreate.InputCustomerCreateDTO{Name: createCustomer.Name}
+
+		customerCreateUseCase := customercreate.NewUseCaseCustomerCreateHandler(customerRepository)
+
+		result, err := customerCreateUseCase.Handle(icfd)
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		} else {
+			c.JSON(http.StatusOK, gin.H{"id": result.ID, "name": result.Name})
+		}
+	})
+
+	routes.GET("/customers", func(c *gin.Context) {
+		icld := customerlist.InputCustomerListDTO{}
+
+		customerListUseCase := customerlist.NewUseCaseCustomerListHandler(customerRepository)
+
+		result, err := customerListUseCase.Handle(icld)
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		} else if len(result.Customers) == 0 {
+			c.JSON(http.StatusOK, gin.H{"customers": []string{}})
+		} else {
+			c.JSON(http.StatusOK, result)
 		}
 	})
 }

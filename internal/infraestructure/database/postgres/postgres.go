@@ -32,8 +32,7 @@ func customerSeed() {
 
 		"CREATE TABLE IF NOT EXISTS customers (" +
 		"id character varying," +
-		"name character varying," +
-		"created_at timestamp without time zone NOT NULL" +
+		"name character varying" +
 		");"
 
 	fmt.Println("Running customers seed...")

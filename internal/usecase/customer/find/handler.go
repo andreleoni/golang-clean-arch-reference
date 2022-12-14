@@ -1,6 +1,8 @@
 package find
 
-import "golang-clean-arch-reference/internal/domain/customer/repository"
+import (
+	"golang-clean-arch-reference/internal/domain/customer/repository"
+)
 
 type UseCaseCustomerFindHandler struct {
 	customerRepository repository.Customer
