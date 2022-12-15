@@ -6,14 +6,21 @@ type Notificator struct {
 	Errors []error `sql:"-"`
 }
 
-func (c *Notificator) HasErrors() bool {
-	return len(c.Errors) > 0
+func (n *Notificator) Validate() {
 }
 
-func (c *Notificator) ErrorMessage() error {
+func (n *Notificator) AddError(err error) {
+	n.Errors = append(n.Errors, err)
+}
+
+func (n *Notificator) HasErrors() bool {
+	return len(n.Errors) > 0
+}
+
+func (n *Notificator) ErrorMessage() error {
 	fullMessage := ""
 
-	for _, currentError := range c.Errors {
+	for _, currentError := range n.Errors {
 		fullMessage += currentError.Error()
 		fullMessage += ","
 	}
