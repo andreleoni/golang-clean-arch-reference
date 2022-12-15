@@ -1,8 +1,6 @@
 package list
 
-type InputCustomerListDTO struct {
-	ID string
-}
+type InputCustomerListDTO struct{}
 
 type OutputCustomerListDTO struct {
 	Customers []OutputCustomerDTO `json:"customers"`
