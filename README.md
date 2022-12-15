@@ -9,4 +9,5 @@ The purposal is a study case about a customer, product and an order application 
 # Links
 
 [Customers contract](CONTRACTS.md)
+
 [Development utils](DEVELOPMENT.md)
