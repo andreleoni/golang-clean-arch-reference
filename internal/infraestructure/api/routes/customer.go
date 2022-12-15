@@ -4,6 +4,7 @@ import (
 	"golang-clean-arch-reference/internal/infraestructure/database/postgres"
 	"golang-clean-arch-reference/internal/infraestructure/persistence/customer"
 	customercreate "golang-clean-arch-reference/internal/usecase/customer/create"
+	customerdelete "golang-clean-arch-reference/internal/usecase/customer/delete"
 	customerfind "golang-clean-arch-reference/internal/usecase/customer/find"
 	customerlist "golang-clean-arch-reference/internal/usecase/customer/list"
 	customerupdate "golang-clean-arch-reference/internal/usecase/customer/update"
@@ -112,6 +113,27 @@ func CustomerRoutes(routes *gin.Engine) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		} else {
 			c.JSON(http.StatusOK, gin.H{"id": result.ID, "name": result.Name})
+		}
+	})
+
+	routes.DELETE("/customer/:id", func(c *gin.Context) {
+		customerID := FindCustomerID{}
+
+		if err := c.ShouldBindUri(&customerID); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
+			return
+		}
+
+		icud := customerdelete.InputCustomerDeleteDTO{ID: customerID.ID}
+
+		uccdh := customerdelete.NewUseCaseCustomerDeleteHandler(customerRepository)
+
+		_, err := uccdh.Handle(icud)
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		} else {
+			c.JSON(http.StatusOK, gin.H{"id": customerID.ID})
 		}
 	})
 }

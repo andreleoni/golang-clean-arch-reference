@@ -39,7 +39,7 @@ func (c Customer) Update(ec *entity.Customer) error {
 }
 
 func (c Customer) Delete(ec *entity.Customer) error {
-	_, err := c.pg.Model(ec).Where("id = ?").Delete()
+	_, err := c.pg.Model(ec).Where("id = ?id").Delete()
 
 	return err
 }
