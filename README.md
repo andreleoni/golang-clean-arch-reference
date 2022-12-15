@@ -1,27 +1,12 @@
-# golang-clean-arch-reference
+# This repository still in progress
 
-# Generate mocks
+# Golang Clean Arch Reference
 
-docker run -v "$PWD":/src -w /src vektra/mockery --all --inpackage
+This repository is an experiment of how to use the clean arch concepts on a Golang project.
 
-sudo chown -R $USER:$USER *
+The purposal is a study case about a customer, product and an order application with domain and layers isolation.
 
-# List Customers
+# Links
 
-curl localhost:8080/customers
-
-# Get Customer
-
-curl localhost:8080/customer/1cacdb20-3a42-4d25-9b59-fe25f97310ab
-
-# Post Customer
-
-curl -X POST localhost:8080/customer -d '{"name":"my customer another"}' -H 'Content-Type: application/json'
-
-# Put Customer
-
-curl -X PUT localhost:8080/customer/1cacdb20-3a42-4d25-9b59-fe25f97310ab -d '{"name":"new changing name"}' -H 'Content-Type: application/json'
-
-# Delete Customer
-
-curl -X DELETE localhost:8080/customer/32efd101-bdba-442e-8f66-c873d7729bf2
+[Customers contract](CONTRACTS.md)
+[Development utils](DEVELOPMENT.md)
