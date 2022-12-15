@@ -27,6 +27,12 @@ func (uccuh UseCaseCustomerUpdateHandler) Handle(icfd InputCustomerUpdateDTO) (O
 
 	customer.Name = icfd.Name
 
+	customer.Validate()
+
+	if customer.HasErrors() {
+		return response, customer.ErrorMessage()
+	}
+
 	err = uccuh.customerRepository.Update(customer)
 	if err != nil {
 		return response, err

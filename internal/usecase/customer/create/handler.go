@@ -18,7 +18,13 @@ func (uccch UseCaseCustomerCreateHandler) Handle(icfd InputCustomerCreateDTO) (O
 
 	customer := factory.NewCustomer("", icfd.Name)
 
-	err := uccch.customerRepository.Create(&customer)
+	customer.Validate()
+
+	if customer.HasErrors() {
+		return response, customer.ErrorMessage()
+	}
+
+	err := uccch.customerRepository.Create(customer)
 	if err != nil {
 		return response, err
 	}

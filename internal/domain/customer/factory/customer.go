@@ -6,13 +6,12 @@ import (
 	"github.com/google/uuid"
 )
 
-func NewCustomer(id, name string) entity.Customer {
+func NewCustomer(id, name string) *entity.Customer {
 	if id == "" {
 		id = uuid.New().String()
 	}
 
-	return entity.Customer{
-		ID:   id,
-		Name: name,
-	}
+	customer := entity.Customer{ID: id, Name: name}
+
+	return &customer
 }

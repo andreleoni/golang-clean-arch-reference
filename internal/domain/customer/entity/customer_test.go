@@ -10,18 +10,17 @@ import (
 func TestCustomer_Validate(t *testing.T) {
 	customer := Customer{}
 
-	idBlankError := customer.Validate()
-	if idBlankError != nil {
-		assert.Equal(t, fmt.Errorf("ID can't be blank"), idBlankError)
-	}
+	customer.Validate()
+	assert.Equal(t, customer.ErrorMessage(), fmt.Errorf("ID can't be blank,name can't be blank,"))
+	assert.Equal(t, customer.HasErrors(), true)
 
 	customer.ID = "testing-uuid"
-	nameBlankError := customer.Validate()
-	if customer.Validate() != nil {
-		assert.Equal(t, fmt.Errorf("name can't be blank"), nameBlankError)
-	}
+	customer.Validate()
+	assert.Equal(t, customer.ErrorMessage(), fmt.Errorf("name can't be blank,"))
+	assert.Equal(t, customer.HasErrors(), true)
 
 	customer.Name = "Customer Name"
 
-	assert.Nil(t, customer.Validate())
+	customer.Validate()
+	assert.Equal(t, customer.HasErrors(), false)
 }
