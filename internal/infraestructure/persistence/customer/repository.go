@@ -2,7 +2,6 @@ package customer
 
 import (
 	"golang-clean-arch-reference/internal/domain/customer/entity"
-	"log"
 
 	"github.com/go-pg/pg"
 )
@@ -33,14 +32,14 @@ func (c Customer) Create(ec *entity.Customer) error {
 	return c.pg.Insert(ec)
 }
 
-func (c Customer) Update(*entity.Customer) error {
-	log.Fatal("not implemented error")
+func (c Customer) Update(ec *entity.Customer) error {
+	_, err := c.pg.Model(ec).Set("name = ?name").Where("id = ?id").Update()
 
-	return nil
+	return err
 }
 
-func (c Customer) Delete(*entity.Customer) error {
-	log.Fatal("not implemented error")
+func (c Customer) Delete(ec *entity.Customer) error {
+	_, err := c.pg.Model(ec).Where("id = ?").Delete()
 
-	return nil
+	return err
 }

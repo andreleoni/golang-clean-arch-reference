@@ -6,6 +6,7 @@ import (
 	customercreate "golang-clean-arch-reference/internal/usecase/customer/create"
 	customerfind "golang-clean-arch-reference/internal/usecase/customer/find"
 	customerlist "golang-clean-arch-reference/internal/usecase/customer/list"
+	customerupdate "golang-clean-arch-reference/internal/usecase/customer/update"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -16,6 +17,10 @@ type FindCustomerID struct {
 }
 
 type CreateCustomer struct {
+	Name string `uri:"name" json:"name" binding:"required"`
+}
+
+type UpdateCustomer struct {
 	Name string `uri:"name" json:"name" binding:"required"`
 }
 
@@ -79,6 +84,34 @@ func CustomerRoutes(routes *gin.Engine) {
 			c.JSON(http.StatusOK, gin.H{"customers": []string{}})
 		} else {
 			c.JSON(http.StatusOK, result)
+		}
+	})
+
+	routes.PUT("/customer/:id", func(c *gin.Context) {
+		customerID := FindCustomerID{}
+
+		if err := c.ShouldBindUri(&customerID); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
+			return
+		}
+
+		updateCustomer := UpdateCustomer{}
+
+		if err := c.ShouldBind(&updateCustomer); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
+			return
+		}
+
+		icud := customerupdate.InputCustomerUpdateDTO{ID: customerID.ID, Name: updateCustomer.Name}
+
+		cuuc := customerupdate.NewUseCaseCustomerUpdateHandler(customerRepository)
+
+		result, err := cuuc.Handle(icud)
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		} else {
+			c.JSON(http.StatusOK, gin.H{"id": result.ID, "name": result.Name})
 		}
 	})
 }

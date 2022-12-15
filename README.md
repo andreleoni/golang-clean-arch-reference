@@ -12,8 +12,12 @@ curl localhost:8080/customers
 
 # Get Customer
 
-curl localhost:8080/customer/0d48b63d-3222-4cd1-b1e4-ad184a1459de
+curl localhost:8080/customer/68352972-d1a6-4f8e-8e42-cb83c5a07348
 
 # Post Customer
 
-curl -X POST localhost:8080/customer -d '{"name":"another"}' -H 'Content-Type: application/json'
+curl -X POST localhost:8080/customer -d '{"name":"my customer another"}' -H 'Content-Type: application/json'
+
+# Put Customer
+
+curl -X PUT localhost:8080/customer/68352972-d1a6-4f8e-8e42-cb83c5a07348 -d '{"name":"new changing name"}' -H 'Content-Type: application/json'
