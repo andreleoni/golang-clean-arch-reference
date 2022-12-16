@@ -1,10 +1,12 @@
 package create
 
-type InputCustomerCreateDTO struct {
-	Name string
+type InputProductCreateDTO struct {
+	Name  string
+	Price uint64
 }
 
-type OutputCustomerCreateDTO struct {
-	ID   string
-	Name string
+type OutputProductCreateDTO struct {
+	ID    string
+	Name  string
+	Price uint64
 }

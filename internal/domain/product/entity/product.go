@@ -8,9 +8,10 @@ import (
 type Product struct {
 	entities.Notificator
 
-	ID    string
-	Name  string
-	Price uint64
+	ID     string
+	Name   string
+	Status string
+	Price  uint64
 }
 
 func (c *Product) Validate() {

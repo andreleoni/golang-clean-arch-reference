@@ -20,6 +20,7 @@ func PGSetup() {
 	// Development only db seed to improve development agility
 	customerSeed()
 	orderSeed()
+	productSeed()
 
 	fmt.Println("Seed completed...")
 }
@@ -54,7 +55,25 @@ func orderSeed() {
 		"quantity bigint" +
 		");"
 
-	fmt.Println("Running customers seed...")
+	fmt.Println("Running order seed...")
+
+	_, err := PG.Exec(seeds)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func productSeed() {
+	seeds := "DROP TABLE IF EXISTS products;" +
+
+		"CREATE TABLE IF NOT EXISTS products (" +
+		"id character varying," +
+		"name character varying," +
+		"status character varying," +
+		"price bigint" +
+		");"
+
+	fmt.Println("Running product seed...")
 
 	_, err := PG.Exec(seeds)
 	if err != nil {

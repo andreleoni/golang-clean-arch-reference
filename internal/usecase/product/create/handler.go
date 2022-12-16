@@ -1,37 +1,38 @@
 package create
 
 import (
-	"golang-clean-arch-reference/internal/domain/customer/factory"
-	"golang-clean-arch-reference/internal/domain/customer/repository"
+	"golang-clean-arch-reference/internal/domain/product/factory"
+	"golang-clean-arch-reference/internal/domain/product/repository"
 )
 
-type UseCaseCustomerCreateHandler struct {
-	customerRepository repository.CustomerRepository
+type UseCaseProductCreateHandler struct {
+	productRepository repository.ProductRepository
 }
 
-func NewUseCaseCustomerCreateHandler(rc repository.CustomerRepository) UseCaseCustomerCreateHandler {
-	return UseCaseCustomerCreateHandler{customerRepository: rc}
+func NewUseCaseProductCreateHandler(rc repository.ProductRepository) UseCaseProductCreateHandler {
+	return UseCaseProductCreateHandler{productRepository: rc}
 }
 
-func (uccch UseCaseCustomerCreateHandler) Handle(icfd InputCustomerCreateDTO) (OutputCustomerCreateDTO, error) {
-	response := OutputCustomerCreateDTO{}
+func (uccch UseCaseProductCreateHandler) Handle(ipfd InputProductCreateDTO) (OutputProductCreateDTO, error) {
+	response := OutputProductCreateDTO{}
 
-	customerFactory := factory.NewCustomerFactory()
-	customer := customerFactory.Create("", icfd.Name)
+	productFactory := factory.NewProductFactory()
+	product := productFactory.Create(ipfd.Name, ipfd.Price)
 
-	customer.Validate()
+	product.Validate()
 
-	if customer.HasErrors() {
-		return response, customer.ErrorMessage()
+	if product.HasErrors() {
+		return response, product.ErrorMessage()
 	}
 
-	err := uccch.customerRepository.Create(customer)
+	err := uccch.productRepository.Create(product)
 	if err != nil {
 		return response, err
 	}
 
-	response.ID = customer.ID
-	response.Name = customer.Name
+	response.ID = product.ID
+	response.Name = product.Name
+	response.Price = product.Price
 
 	return response, nil
 }
