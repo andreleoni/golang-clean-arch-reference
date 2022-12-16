@@ -2,7 +2,7 @@ package repository
 
 import "golang-clean-arch-reference/internal/domain/customer/entity"
 
-type Customer interface {
+type CustomerRepository interface {
 	List() ([]*entity.Customer, error)
 	Find(ID string) (*entity.Customer, error)
 	Create(*entity.Customer) error

@@ -6,10 +6,10 @@ import (
 )
 
 type UseCaseCustomerUpdateHandler struct {
-	customerRepository repository.Customer
+	customerRepository repository.CustomerRepository
 }
 
-func NewUseCaseCustomerUpdateHandler(rc repository.Customer) UseCaseCustomerUpdateHandler {
+func NewUseCaseCustomerUpdateHandler(rc repository.CustomerRepository) UseCaseCustomerUpdateHandler {
 	return UseCaseCustomerUpdateHandler{customerRepository: rc}
 }
 

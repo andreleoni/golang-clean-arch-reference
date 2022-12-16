@@ -5,10 +5,10 @@ import (
 )
 
 type UseCaseCustomerFindHandler struct {
-	customerRepository repository.Customer
+	customerRepository repository.CustomerRepository
 }
 
-func NewUseCaseCustomerFindHandler(rc repository.Customer) UseCaseCustomerFindHandler {
+func NewUseCaseCustomerFindHandler(rc repository.CustomerRepository) UseCaseCustomerFindHandler {
 	return UseCaseCustomerFindHandler{customerRepository: rc}
 }
 

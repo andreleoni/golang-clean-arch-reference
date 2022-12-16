@@ -6,10 +6,10 @@ import (
 )
 
 type UseCaseCustomerDeleteHandler struct {
-	customerRepository repository.Customer
+	customerRepository repository.CustomerRepository
 }
 
-func NewUseCaseCustomerDeleteHandler(rc repository.Customer) UseCaseCustomerDeleteHandler {
+func NewUseCaseCustomerDeleteHandler(rc repository.CustomerRepository) UseCaseCustomerDeleteHandler {
 	return UseCaseCustomerDeleteHandler{customerRepository: rc}
 }
 

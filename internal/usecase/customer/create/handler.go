@@ -6,17 +6,18 @@ import (
 )
 
 type UseCaseCustomerCreateHandler struct {
-	customerRepository repository.Customer
+	customerRepository repository.CustomerRepository
 }
 
-func NewUseCaseCustomerCreateHandler(rc repository.Customer) UseCaseCustomerCreateHandler {
+func NewUseCaseCustomerCreateHandler(rc repository.CustomerRepository) UseCaseCustomerCreateHandler {
 	return UseCaseCustomerCreateHandler{customerRepository: rc}
 }
 
 func (uccch UseCaseCustomerCreateHandler) Handle(icfd InputCustomerCreateDTO) (OutputCustomerCreateDTO, error) {
 	response := OutputCustomerCreateDTO{}
 
-	customer := factory.NewCustomer("", icfd.Name)
+	customerFactory := factory.NewCustomerFactory()
+	customer := customerFactory.Create("", icfd.Name)
 
 	customer.Validate()
 

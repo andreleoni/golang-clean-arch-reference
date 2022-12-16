@@ -6,7 +6,13 @@ import (
 	"github.com/google/uuid"
 )
 
-func NewCustomer(id, name string) *entity.Customer {
+type CustomerFactory struct{}
+
+func NewCustomerFactory() *CustomerFactory {
+	return &CustomerFactory{}
+}
+
+func (cf *CustomerFactory) Create(id, name string) *entity.Customer {
 	if id == "" {
 		id = uuid.New().String()
 	}
