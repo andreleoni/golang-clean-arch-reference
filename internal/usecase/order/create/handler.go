@@ -13,25 +13,27 @@ func NewUseCaseOrderCreateHandler(or repository.OrderRepository) UseCaseOrderCre
 	return UseCaseOrderCreateHandler{orderRepository: or}
 }
 
-func (uccch UseCaseOrderCreateHandler) Handle(icfd InputOrderFindDTO) (OutputOrderFindDTO, error) {
+func (uccch UseCaseOrderCreateHandler) Handle(iocd InputOrderCreateDTO) (OutputOrderCreateDTO, error) {
 	response := OutputOrderCreateDTO{}
 
-	customerFactory := factory.NewCustomerFactory()
-	customer := customerFactory.Create("", icfd.Name)
+	orderFactory := factory.NewOrderFactory()
+	order := orderFactory.Create(iocd.ProductID, iocd.CustomerID, iocd.Quantity)
 
-	customer.Validate()
+	order.Validate()
 
-	if customer.HasErrors() {
-		return response, customer.ErrorMessage()
+	if order.HasErrors() {
+		return response, order.ErrorMessage()
 	}
 
-	err := uccch.customerRepository.Create(customer)
+	err := uccch.orderRepository.Create(order)
 	if err != nil {
 		return response, err
 	}
 
-	response.ID = customer.ID
-	response.Name = customer.Name
+	response.ID = order.ID
+	response.ProductID = order.ProductID
+	response.CustomerID = order.CustomerID
+	response.Quantity = order.Quantity
 
 	return response, nil
 }

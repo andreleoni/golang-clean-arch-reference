@@ -1,11 +1,15 @@
 package update
 
-type InputCustomerUpdateDTO struct {
-	ID   string
-	Name string
+type InputOrderUpdateDTO struct {
+	ID         string
+	ProductID  string
+	CustomerID string
+	Quantity   uint64
 }
 
-type OutputCustomerUpdateDTO struct {
-	ID   string
-	Name string
+type OutputOrderUpdateDTO struct {
+	ID         string
+	ProductID  string
+	CustomerID string
+	Quantity   uint64
 }

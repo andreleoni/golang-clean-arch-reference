@@ -2,44 +2,48 @@ package update
 
 import (
 	"fmt"
-	"golang-clean-arch-reference/internal/domain/customer/repository"
+	"golang-clean-arch-reference/internal/domain/order/repository"
 )
 
-type UseCaseCustomerUpdateHandler struct {
-	customerRepository repository.CustomerRepository
+type UseCaseOrderUpdateHandler struct {
+	orderRepository repository.OrderRepository
 }
 
-func NewUseCaseCustomerUpdateHandler(rc repository.CustomerRepository) UseCaseCustomerUpdateHandler {
-	return UseCaseCustomerUpdateHandler{customerRepository: rc}
+func NewUseCaseOrderUpdateHandler(oc repository.OrderRepository) UseCaseOrderUpdateHandler {
+	return UseCaseOrderUpdateHandler{orderRepository: oc}
 }
 
-func (uccuh UseCaseCustomerUpdateHandler) Handle(icfd InputCustomerUpdateDTO) (OutputCustomerUpdateDTO, error) {
-	response := OutputCustomerUpdateDTO{}
+func (uccuh UseCaseOrderUpdateHandler) Handle(icfd InputOrderUpdateDTO) (OutputOrderUpdateDTO, error) {
+	response := OutputOrderUpdateDTO{}
 
-	customer, err := uccuh.customerRepository.Find(icfd.ID)
+	order, err := uccuh.orderRepository.Find(icfd.ID)
 	if err != nil {
 		return response, err
 	}
 
-	if customer.ID == "" {
+	if order.ID == "" {
 		return response, fmt.Errorf("customer not found")
 	}
 
-	customer.Name = icfd.Name
+	order.ProductID = icfd.ProductID
+	order.CustomerID = icfd.CustomerID
+	order.Quantity = icfd.Quantity
 
-	customer.Validate()
+	order.Validate()
 
-	if customer.HasErrors() {
-		return response, customer.ErrorMessage()
+	if order.HasErrors() {
+		return response, order.ErrorMessage()
 	}
 
-	err = uccuh.customerRepository.Update(customer)
+	err = uccuh.orderRepository.Update(order)
 	if err != nil {
 		return response, err
 	}
 
-	response.ID = customer.ID
-	response.Name = customer.Name
+	response.ID = order.ID
+	response.ProductID = order.ProductID
+	response.CustomerID = order.CustomerID
+	response.Quantity = order.Quantity
 
 	return response, nil
 }

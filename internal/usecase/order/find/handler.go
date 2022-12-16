@@ -1,21 +1,21 @@
 package find
 
 import (
-	"golang-clean-arch-reference/internal/domain/customer/repository"
+	"golang-clean-arch-reference/internal/domain/order/repository"
 )
 
-type UseCaseCustomerFindHandler struct {
-	customerRepository repository.CustomerRepository
+type UseCaseOrderFindHandler struct {
+	orderRepository repository.OrderRepository
 }
 
-func NewUseCaseCustomerFindHandler(rc repository.CustomerRepository) UseCaseCustomerFindHandler {
-	return UseCaseCustomerFindHandler{customerRepository: rc}
+func NewUseCaseOrderFindHandler(or repository.OrderRepository) UseCaseOrderFindHandler {
+	return UseCaseOrderFindHandler{orderRepository: or}
 }
 
-func (uccfh UseCaseCustomerFindHandler) Handle(icfd InputCustomerFindDTO) (OutputCustomerFindDTO, error) {
-	response := OutputCustomerFindDTO{}
+func (uccfh UseCaseOrderFindHandler) Handle(icfd InputOrderFindDTO) (OutputOrderFindDTO, error) {
+	response := OutputOrderFindDTO{}
 
-	result, err := uccfh.customerRepository.Find(icfd.ID)
+	order, err := uccfh.orderRepository.Find(icfd.ID)
 	if err != nil {
 		if err.Error() == "pg: no rows in result set" {
 			return response, nil
@@ -24,8 +24,10 @@ func (uccfh UseCaseCustomerFindHandler) Handle(icfd InputCustomerFindDTO) (Outpu
 		return response, err
 	}
 
-	response.ID = result.ID
-	response.Name = result.Name
+	response.ID = order.ID
+	response.ProductID = order.ProductID
+	response.CustomerID = order.CustomerID
+	response.Quantity = order.Quantity
 
 	return response, nil
 }

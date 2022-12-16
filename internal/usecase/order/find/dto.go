@@ -1,10 +1,12 @@
 package find
 
-type InputCustomerFindDTO struct {
+type InputOrderFindDTO struct {
 	ID string
 }
 
-type OutputCustomerFindDTO struct {
-	ID   string
-	Name string
+type OutputOrderFindDTO struct {
+	ID         string
+	ProductID  string
+	CustomerID string
+	Quantity   uint64
 }

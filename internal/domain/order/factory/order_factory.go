@@ -12,10 +12,8 @@ func NewOrderFactory() *OrderFactory {
 	return &OrderFactory{}
 }
 
-func (cf *OrderFactory) Create(id, productID, customerID string, quantity uint64) *entity.Order {
-	if id == "" {
-		id = uuid.New().String()
-	}
+func (cf *OrderFactory) Create(productID, customerID string, quantity uint64) *entity.Order {
+	id := uuid.New().String()
 
 	order := entity.Order{
 		ID:         id,
