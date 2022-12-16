@@ -14,12 +14,13 @@ func TestUseCaseOrderUpdateHandler_Integration(t *testing.T) {
 
 	orderRepository := orderpersistence.NewOrder(postgres.PG)
 
-	expectedID := "oder-uuid"
+	expectedID := "oder-uuid-2"
 	expectedProductID := "product-uuid-1"
 	expectedCustomerID := "customer-uuid-1"
 	expectedQuantity := uint64(2)
 
 	order := entity.Order{
+		ID:         expectedID,
 		ProductID:  expectedProductID,
 		CustomerID: expectedCustomerID,
 		Quantity:   uint64(expectedQuantity),
@@ -49,6 +50,6 @@ func TestUseCaseOrderUpdateHandler_Integration(t *testing.T) {
 		assert.NotEqual(t, findResult.ID, "")
 		assert.Equal(t, findResult.ProductID, expectedProductID)
 		assert.Equal(t, findResult.CustomerID, expectedCustomerID)
-		assert.Equal(t, findResult.Quantity, uint64(2))
+		assert.Equal(t, findResult.Quantity, uint64(4))
 	})
 }
