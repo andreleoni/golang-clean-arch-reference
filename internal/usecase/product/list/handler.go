@@ -1,27 +1,27 @@
 package list
 
 import (
-	"golang-clean-arch-reference/internal/domain/customer/repository"
+	"golang-clean-arch-reference/internal/domain/product/repository"
 )
 
-type UseCaseCustomerListHandler struct {
-	customerRepository repository.CustomerRepository
+type UseCaseProductListHandler struct {
+	productRepository repository.ProductRepository
 }
 
-func NewUseCaseCustomerListHandler(rc repository.CustomerRepository) UseCaseCustomerListHandler {
-	return UseCaseCustomerListHandler{customerRepository: rc}
+func NewUseCaseProductListHandler(rp repository.ProductRepository) UseCaseProductListHandler {
+	return UseCaseProductListHandler{productRepository: rp}
 }
 
-func (uccfh UseCaseCustomerListHandler) Handle(icfd InputCustomerListDTO) (OutputCustomerListDTO, error) {
-	response := OutputCustomerListDTO{}
+func (uccfh UseCaseProductListHandler) Handle(ipfd InputProductListDTO) (OutputProductListDTO, error) {
+	response := OutputProductListDTO{}
 
-	result, err := uccfh.customerRepository.List()
+	result, err := uccfh.productRepository.List()
 	if err != nil {
 		return response, err
 	}
 
 	for _, v := range result {
-		response.Customers = append(response.Customers, OutputCustomerDTO{ID: v.ID, Name: v.Name})
+		response.Products = append(response.Products, OutputProductDTO{ID: v.ID, Name: v.Name, Status: v.Status, Price: v.Price})
 	}
 
 	return response, nil
