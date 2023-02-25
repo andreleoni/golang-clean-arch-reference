@@ -11,12 +11,6 @@ services:
        - golang-clean-arch-reference:/data/postgres
     ports:
       - "5432:5432"
-    networks:
-      - backend
-
-networks:
-  backend:
-    external: true
 
 volumes:
   golang-clean-arch-reference:

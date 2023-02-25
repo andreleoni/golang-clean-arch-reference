@@ -2,7 +2,6 @@ package create
 
 import (
 	"golang-clean-arch-reference/internal/infraestructure/database/postgres"
-	"golang-clean-arch-reference/internal/infraestructure/persistence/customer"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -11,16 +10,16 @@ import (
 func TestUseCaseCustomerCreateHandler_Integration(t *testing.T) {
 	postgres.PGSetup()
 
-	customerRepository := customer.NewCustomer(postgres.PG)
+	productRepository := product.NewProduct(postgres.PG)
 
 	expectedName := "my name"
 
 	t.Run("when creating the handler", func(t *testing.T) {
-		icfd := InputCustomerCreateDTO{Name: expectedName}
+		ipfd := InputProductCreateDTO{Name: expectedName}
 
-		customerFindHandler := NewUseCaseCustomerCreateHandler(customerRepository)
+		customerFindHandler := NewUseCaseProductCreateHandler(productRepository)
 
-		expectedResult := OutputCustomerCreateDTO{Name: expectedName}
+		expectedResult := OutputProductCreateDTO{Name: expectedName}
 
 		result, err := customerFindHandler.Handle(icfd)
 

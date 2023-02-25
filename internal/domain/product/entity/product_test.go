@@ -7,30 +7,30 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestOrder_Validate(t *testing.T) {
-	order := Order{}
+func Testproduct_Validate(t *testing.T) {
+	product := Product{}
 
-	order.Validate()
-	assert.Equal(t, order.ErrorMessage(), fmt.Errorf("ID can't be blank,product can't be blank,customer can't be blank,quantity must be great than zero,"))
-	assert.Equal(t, order.HasErrors(), true)
+	product.Validate()
+	assert.Equal(t, product.ErrorMessage(), fmt.Errorf("ID can't be blank,product can't be blank,customer can't be blank,quantity must be great than zero,"))
+	assert.Equal(t, product.HasErrors(), true)
 
-	order.ID = "testing-uuid"
-	order.Validate()
-	assert.Equal(t, order.ErrorMessage(), fmt.Errorf("product can't be blank,customer can't be blank,quantity must be great than zero,"))
-	assert.Equal(t, order.HasErrors(), true)
+	product.ID = "testing-uuid"
+	product.Validate()
+	assert.Equal(t, product.ErrorMessage(), fmt.Errorf("product can't be blank,customer can't be blank,quantity must be great than zero,"))
+	assert.Equal(t, product.HasErrors(), true)
 
-	order.ProductID = "testing-product-uuid"
-	order.Validate()
-	assert.Equal(t, order.ErrorMessage(), fmt.Errorf("customer can't be blank,quantity must be great than zero,"))
-	assert.Equal(t, order.HasErrors(), true)
+	product.Name = "testing-product-uuid"
+	product.Validate()
+	assert.Equal(t, product.ErrorMessage(), fmt.Errorf("customer can't be blank,quantity must be great than zero,"))
+	assert.Equal(t, product.HasErrors(), true)
 
-	order.CustomerID = "testing-customer-uuid"
-	order.Validate()
-	assert.Equal(t, order.ErrorMessage(), fmt.Errorf("quantity must be great than zero,"))
-	assert.Equal(t, order.HasErrors(), true)
+	product.CustomerID = "testing-customer-uuid"
+	product.Validate()
+	assert.Equal(t, product.ErrorMessage(), fmt.Errorf("quantity must be great than zero,"))
+	assert.Equal(t, product.HasErrors(), true)
 
-	order.Quantity = 1
+	product.Quantity = 1
 
-	order.Validate()
-	assert.Equal(t, order.HasErrors(), false)
+	product.Validate()
+	assert.Equal(t, product.HasErrors(), false)
 }
