@@ -25,6 +25,10 @@ func (c *Product) Validate() {
 		c.AddError(fmt.Errorf("name can't be blank"))
 	}
 
+	if c.Status == "" {
+		c.AddError(fmt.Errorf("status can't be blank"))
+	}
+
 	if c.Price <= 0.0 {
 		c.AddError(fmt.Errorf("price must be great than zero"))
 	}

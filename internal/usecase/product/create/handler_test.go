@@ -4,6 +4,6 @@ import (
 	"testing"
 )
 
-func TestUseCaseCustomerCreateHandler_Handler(t *testing.T) {
+func TestUseCaseProductCreateHandler_Handler(t *testing.T) {
 
 }

@@ -1,12 +1,14 @@
 package create
 
 type InputProductCreateDTO struct {
-	Name  string
-	Price uint64
+	Name   string
+	Status string
+	Price  uint64
 }
 
 type OutputProductCreateDTO struct {
-	ID    string
-	Name  string
-	Price uint64
+	ID     string
+	Name   string
+	Status string
+	Price  uint64
 }

@@ -28,18 +28,24 @@ func (c Product) Find(ID string) (*entity.Product, error) {
 	return &product, err
 }
 
-func (c Product) Create(ec *entity.Product) error {
-	return c.pg.Insert(ec)
+func (c Product) Create(ep *entity.Product) error {
+	return c.pg.Insert(ep)
 }
 
-func (c Product) Update(ec *entity.Product) error {
-	_, err := c.pg.Model(ec).Set("name = ?name, status = ?status, price = ?price").Where("id = ?id").Update()
+func (c Product) Update(ep *entity.Product) error {
+	_, err := c.pg.Model(ep).Set("name = ?name, status = ?status, price = ?price").Where("id = ?id").Update()
 
 	return err
 }
 
-func (c Product) Delete(ec *entity.Product) error {
-	_, err := c.pg.Model(ec).Where("id = ?id").Delete()
+func (c Product) Enable(ep *entity.Product) error {
+	ep.Status = "enabled"
 
-	return err
+	return c.Update(ep)
+}
+
+func (c Product) Disable(ep *entity.Product) error {
+	ep.Status = "disabled"
+
+	return c.Update(ep)
 }

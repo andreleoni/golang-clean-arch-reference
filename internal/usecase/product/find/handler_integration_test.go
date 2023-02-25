@@ -1,48 +1,55 @@
 package find
 
 import (
-	"golang-clean-arch-reference/internal/domain/customer/entity"
+	"golang-clean-arch-reference/internal/domain/product/entity"
 	"golang-clean-arch-reference/internal/infraestructure/database/postgres"
-	"golang-clean-arch-reference/internal/infraestructure/persistence/customer"
+	productpersistence "golang-clean-arch-reference/internal/infraestructure/persistence/product"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestUseCaseCustomerFindHandler_Integration(t *testing.T) {
+func TestUseCaseProductFindHandler_Integration(t *testing.T) {
 	postgres.PGSetup()
 
-	customerRepository := customer.NewCustomer(postgres.PG)
+	productRepository := productpersistence.NewProduct(postgres.PG)
 
 	expectedID := "my-uuid"
 	expectedName := "my name"
+	expectedStatus := "enabled"
+	expectedPrice := uint64(123)
 
-	customer := entity.Customer{ID: expectedID, Name: expectedName}
+	product := entity.Product{ID: expectedID, Name: expectedName, Status: expectedStatus, Price: expectedPrice}
 
-	err := customerRepository.Create(&customer)
+	err := productRepository.Create(&product)
 	assert.Nil(t, err)
 
 	t.Run("when have the ID on database", func(t *testing.T) {
-		icfd := InputCustomerFindDTO{ID: expectedID}
+		icfd := InputProductFindDTO{ID: expectedID}
 
-		customerFindHandler := NewUseCaseCustomerFindHandler(customerRepository)
+		productFindHandler := NewUseCaseProductFindHandler(productRepository)
 
-		expectedResult := OutputCustomerFindDTO{ID: expectedID, Name: expectedName}
+		expectedResult := OutputProductFindDTO{
+			ID:     expectedID,
+			Name:   expectedName,
+			Status: expectedStatus,
+			Price:  expectedPrice,
+		}
 
-		result, err := customerFindHandler.Handle(icfd)
+		result, err := productFindHandler.Handle(icfd)
 
 		assert.Nil(t, err)
 		assert.Equal(t, expectedResult, result)
 	})
 
 	t.Run("when have not the ID on database", func(t *testing.T) {
-		icfd := InputCustomerFindDTO{ID: "not existing ID"}
+		icfd := InputProductFindDTO{ID: "not existing ID"}
 
-		customerFindHandler := NewUseCaseCustomerFindHandler(customerRepository)
+		productFindHandler := NewUseCaseProductFindHandler(productRepository)
 
-		expectedResult := OutputCustomerFindDTO{}
+		expectedResult := OutputProductFindDTO{}
 
-		result, err := customerFindHandler.Handle(icfd)
+		result, err := productFindHandler.Handle(icfd)
 
 		assert.Nil(t, err)
 		assert.Equal(t, expectedResult, result)

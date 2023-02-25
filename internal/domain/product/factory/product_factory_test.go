@@ -4,6 +4,6 @@ import (
 	"testing"
 )
 
-func TestFactory_NewOrderFactory(t *testing.T) {
+func TestFactory_NewProductFactory(t *testing.T) {
 
 }

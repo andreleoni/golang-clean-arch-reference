@@ -2,11 +2,11 @@ package list
 
 type InputCustomerListDTO struct{}
 
-type OutputCustomerListDTO struct {
-	Customers []OutputCustomerDTO `json:"customers"`
+type OutputProductListDTO struct {
+	Products []OutputProductDTO `json:"customers"`
 }
 
-type OutputCustomerDTO struct {
+type OutputProductDTO struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }

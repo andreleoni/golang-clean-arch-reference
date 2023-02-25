@@ -12,13 +12,14 @@ func NewProductFactory() *ProductFactory {
 	return &ProductFactory{}
 }
 
-func (cf *ProductFactory) Create(name string, price uint64) *entity.Product {
+func (cf *ProductFactory) Create(name string, status string, price uint64) *entity.Product {
 	id := uuid.New().String()
 
 	product := entity.Product{
-		ID:    id,
-		Name:  name,
-		Price: price,
+		ID:     id,
+		Name:   name,
+		Status: status,
+		Price:  price,
 	}
 
 	return &product

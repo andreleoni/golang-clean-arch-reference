@@ -17,7 +17,7 @@ func (uccch UseCaseProductCreateHandler) Handle(ipfd InputProductCreateDTO) (Out
 	response := OutputProductCreateDTO{}
 
 	productFactory := factory.NewProductFactory()
-	product := productFactory.Create(ipfd.Name, ipfd.Price)
+	product := productFactory.Create(ipfd.Name, ipfd.Status, ipfd.Price)
 
 	product.Validate()
 
