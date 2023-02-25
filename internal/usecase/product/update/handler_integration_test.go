@@ -1,41 +1,52 @@
 package update
 
 import (
-	"golang-clean-arch-reference/internal/domain/customer/entity"
+	"golang-clean-arch-reference/internal/domain/product/entity"
 	"golang-clean-arch-reference/internal/infraestructure/database/postgres"
-	"golang-clean-arch-reference/internal/infraestructure/persistence/customer"
+	productpersistence "golang-clean-arch-reference/internal/infraestructure/persistence/product"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestUseCaseCustomerUpdateHandler_Integration(t *testing.T) {
+func TestUseCaseProductUpdateHandler_Integration(t *testing.T) {
 	postgres.PGSetup()
 
-	customerRepository := customer.NewCustomer(postgres.PG)
+	productRepository := productpersistence.NewProduct(postgres.PG)
 
-	expectedID := "my-uuid"
-	expectedName := "my name"
+	startProductID := "my-uuid"
+	startProductName := "my name"
+	startProductStatus := "enabled"
+	StartProductPrice := uint64(123)
 
-	customer := entity.Customer{ID: expectedID, Name: expectedName}
+	product := entity.Product{ID: startProductID, Name: startProductName, Status: startProductStatus, Price: StartProductPrice}
 
-	err := customerRepository.Create(&customer)
+	err := productRepository.Create(&product)
 	assert.Nil(t, err)
 
 	t.Run("when updating the record", func(t *testing.T) {
-		customerUpdateHandler := NewUseCaseCustomerUpdateHandler(customerRepository)
+		productUpdateHandler := NewUseCaseProductUpdateHandler(productRepository)
 
-		myUpdatableName := "my another name"
+		updateName := "my another name"
+		updateStatus := "disabled"
+		updatePrice := uint64(20)
 
-		icfd := InputCustomerUpdateDTO{ID: expectedID, Name: myUpdatableName}
+		icfd := InputProductUpdateDTO{
+			ID:     product.ID,
+			Name:   updateName,
+			Status: updateStatus,
+			Price:  updatePrice,
+		}
 
-		result, err := customerUpdateHandler.Handle(icfd)
+		result, err := productUpdateHandler.Handle(icfd)
 		assert.Nil(t, err)
 
-		findResult, err := customerRepository.Find(result.ID)
+		findResult, err := productRepository.Find(result.ID)
 		assert.Nil(t, err)
 
 		assert.Equal(t, result.ID, findResult.ID)
-		assert.Equal(t, result.Name, myUpdatableName)
+		assert.Equal(t, result.Name, updateName)
+		assert.Equal(t, result.Status, updateStatus)
+		assert.Equal(t, result.Price, updatePrice)
 	})
 }

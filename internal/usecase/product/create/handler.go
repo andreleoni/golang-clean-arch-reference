@@ -32,6 +32,7 @@ func (uccch UseCaseProductCreateHandler) Handle(ipfd InputProductCreateDTO) (Out
 
 	response.ID = product.ID
 	response.Name = product.Name
+	response.Status = product.Status
 	response.Price = product.Price
 
 	return response, nil

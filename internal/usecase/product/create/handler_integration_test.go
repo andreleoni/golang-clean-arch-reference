@@ -14,24 +14,34 @@ func TestUseCaseProductCreateHandler_Integration(t *testing.T) {
 	productRepository := productpersistence.NewProduct(postgres.PG)
 
 	expectedName := "my name"
+	expectedStatus := "enabled"
+	expectedPrice := uint64(123)
 
 	t.Run("when creating the handler", func(t *testing.T) {
-		ipcd := InputProductCreateDTO{Name: expectedName, Status: "enabled", Price: 123}
+		ipcd := InputProductCreateDTO{
+			Name:   expectedName,
+			Status: expectedStatus,
+			Price:  expectedPrice,
+		}
 
-		customerFindHandler := NewUseCaseProductCreateHandler(productRepository)
+		producCreateHandler := NewUseCaseProductCreateHandler(productRepository)
 
-		expectedResult := OutputProductCreateDTO{Name: expectedName}
+		expectedResult := OutputProductCreateDTO{Name: expectedName, Status: expectedStatus, Price: expectedPrice}
 
-		result, err := customerFindHandler.Handle(ipcd)
+		result, err := producCreateHandler.Handle(ipcd)
 
 		assert.Nil(t, err)
 		assert.NotEqual(t, result.ID, "")
 		assert.Equal(t, expectedResult.Name, result.Name)
+		assert.Equal(t, expectedResult.Status, result.Status)
+		assert.Equal(t, expectedResult.Price, result.Price)
 
 		findResult, err := productRepository.Find(result.ID)
 
 		assert.Nil(t, err)
 		assert.Equal(t, result.ID, findResult.ID)
 		assert.Equal(t, expectedResult.Name, result.Name)
+		assert.Equal(t, expectedResult.Status, result.Status)
+		assert.Equal(t, expectedResult.Price, result.Price)
 	})
 }
