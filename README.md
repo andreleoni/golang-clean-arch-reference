@@ -11,3 +11,11 @@ The purposal is a study case about a customer, product and an order application 
 [Customers contract](CONTRACTS.md)
 
 [Development utils](DEVELOPMENT.md)
+
+# Development
+
+Run compose with: `docker compose up -d`
+
+Run tests with: `go test ./...`
+
+Generate mock with: `make mocks`
