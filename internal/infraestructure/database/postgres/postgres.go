@@ -52,7 +52,13 @@ func orderSeed() {
 		"id character varying," +
 		"product_id character varying," +
 		"customer_id character varying," +
-		"quantity bigint" +
+		"quantity bigint," +
+		"address_street character varying," +
+		"address_number character varying," +
+		"address_complement character varying," +
+		"address_zipcode character varying," +
+		"address_city character varying," +
+		"address_province character varying" +
 		");"
 
 	fmt.Println("Running order seed...")

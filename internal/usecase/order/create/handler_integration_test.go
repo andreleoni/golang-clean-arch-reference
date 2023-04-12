@@ -1,6 +1,7 @@
 package create
 
 import (
+	"golang-clean-arch-reference/internal/domain/valueobject"
 	"golang-clean-arch-reference/internal/infraestructure/database/postgres"
 	orderpersistence "golang-clean-arch-reference/internal/infraestructure/persistence/order"
 	"testing"
@@ -22,6 +23,14 @@ func TestUseCaseOrderCreateHandler_Integration(t *testing.T) {
 			ProductID:  expectedProductID,
 			CustomerID: expectedCustomerID,
 			Quantity:   uint64(expectedQuantity),
+			Address: valueobject.Address{
+				Street:     "my street",
+				Number:     "123",
+				Complement: "my complement",
+				Zipcode:    "89219333",
+				City:       "Joinville",
+				Province:   "SC",
+			},
 		}
 
 		orderCreateHandler := NewUseCaseOrderCreateHandler(ordersRepository)
@@ -30,9 +39,6 @@ func TestUseCaseOrderCreateHandler_Integration(t *testing.T) {
 
 		assert.Nil(t, err)
 		assert.NotEqual(t, result.ID, "")
-		assert.Equal(t, result.ProductID, expectedProductID)
-		assert.Equal(t, result.CustomerID, expectedCustomerID)
-		assert.Equal(t, result.Quantity, uint64(2))
 
 		findResult, err := ordersRepository.Find(result.ID)
 
@@ -41,5 +47,11 @@ func TestUseCaseOrderCreateHandler_Integration(t *testing.T) {
 		assert.Equal(t, findResult.ProductID, expectedProductID)
 		assert.Equal(t, findResult.CustomerID, expectedCustomerID)
 		assert.Equal(t, findResult.Quantity, uint64(2))
+		assert.Equal(t, findResult.Address.Street, icfd.Address.Street)
+		assert.Equal(t, findResult.Address.Number, icfd.Address.Number)
+		assert.Equal(t, findResult.Address.Complement, icfd.Address.Complement)
+		assert.Equal(t, findResult.Address.Zipcode, icfd.Address.Zipcode)
+		assert.Equal(t, findResult.Address.City, icfd.Address.City)
+		assert.Equal(t, findResult.Address.Province, icfd.Address.Province)
 	})
 }

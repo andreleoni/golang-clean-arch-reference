@@ -28,6 +28,7 @@ func (uccfh UseCaseOrderFindHandler) Handle(icfd InputOrderFindDTO) (OutputOrder
 	response.ProductID = order.ProductID
 	response.CustomerID = order.CustomerID
 	response.Quantity = order.Quantity
+	response.Address = order.Address
 
 	return response, nil
 }

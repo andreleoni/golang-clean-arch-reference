@@ -3,6 +3,7 @@ package entity
 import (
 	"fmt"
 	"golang-clean-arch-reference/internal/domain/shared/entities"
+	"golang-clean-arch-reference/internal/domain/valueobject"
 )
 
 type Order struct {
@@ -12,6 +13,7 @@ type Order struct {
 	ProductID  string
 	CustomerID string
 	Quantity   uint64
+	Address    valueobject.Address `pg:"-"`
 }
 
 func (c *Order) Validate() {

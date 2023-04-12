@@ -31,9 +31,6 @@ func (uccch UseCaseOrderCreateHandler) Handle(iocd InputOrderCreateDTO) (OutputO
 	}
 
 	response.ID = order.ID
-	response.ProductID = order.ProductID
-	response.CustomerID = order.CustomerID
-	response.Quantity = order.Quantity
 
 	return response, nil
 }

@@ -28,6 +28,7 @@ func (uccuh UseCaseOrderUpdateHandler) Handle(icfd InputOrderUpdateDTO) (OutputO
 	order.ProductID = icfd.ProductID
 	order.CustomerID = icfd.CustomerID
 	order.Quantity = icfd.Quantity
+	order.Address = icfd.Address
 
 	order.Validate()
 
