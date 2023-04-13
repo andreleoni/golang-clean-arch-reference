@@ -2,7 +2,8 @@ package update
 
 import (
 	"golang-clean-arch-reference/internal/domain/order/entity"
-	"golang-clean-arch-reference/internal/infraestructure/database/postgres"
+	"golang-clean-arch-reference/internal/domain/valueobject"
+	"golang-clean-arch-reference/internal/infraestructure/database/sqlite"
 	orderpersistence "golang-clean-arch-reference/internal/infraestructure/persistence/order"
 	"testing"
 
@@ -10,9 +11,9 @@ import (
 )
 
 func TestUseCaseOrderUpdateHandler_Integration(t *testing.T) {
-	postgres.PGSetup()
+	sqlite.SQLiteSetup()
 
-	orderRepository := orderpersistence.NewOrder(postgres.PG)
+	orderRepository := orderpersistence.NewOrder(sqlite.Sqlite)
 
 	expectedID := "oder-uuid-2"
 	expectedProductID := "product-uuid-1"
@@ -24,6 +25,14 @@ func TestUseCaseOrderUpdateHandler_Integration(t *testing.T) {
 		ProductID:  expectedProductID,
 		CustomerID: expectedCustomerID,
 		Quantity:   uint64(expectedQuantity),
+		Address: valueobject.Address{
+			Street:     "my street",
+			Number:     "123",
+			Complement: "my complement",
+			Zipcode:    "89219333",
+			City:       "Joinville",
+			Province:   "SC",
+		},
 	}
 
 	err := orderRepository.Create(&order)
@@ -39,6 +48,14 @@ func TestUseCaseOrderUpdateHandler_Integration(t *testing.T) {
 			ProductID:  expectedProductID,
 			CustomerID: expectedCustomerID,
 			Quantity:   uint64(myNewQuantity),
+			Address: valueobject.Address{
+				Street:     "anoter street",
+				Number:     "333",
+				Complement: "another complement",
+				Zipcode:    "89219000",
+				City:       "AnotherCity",
+				Province:   "AnotherProvince",
+			},
 		}
 
 		result, err := customerUpdateHandler.Handle(icfd)
@@ -51,5 +68,11 @@ func TestUseCaseOrderUpdateHandler_Integration(t *testing.T) {
 		assert.Equal(t, findResult.ProductID, expectedProductID)
 		assert.Equal(t, findResult.CustomerID, expectedCustomerID)
 		assert.Equal(t, findResult.Quantity, uint64(4))
+		assert.Equal(t, findResult.Address.Street, icfd.Address.Street)
+		assert.Equal(t, findResult.Address.Number, icfd.Address.Number)
+		assert.Equal(t, findResult.Address.Complement, icfd.Address.Complement)
+		assert.Equal(t, findResult.Address.Zipcode, icfd.Address.Zipcode)
+		assert.Equal(t, findResult.Address.City, icfd.Address.City)
+		assert.Equal(t, findResult.Address.Province, icfd.Address.Province)
 	})
 }

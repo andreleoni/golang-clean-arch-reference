@@ -2,7 +2,7 @@ package list
 
 import (
 	"golang-clean-arch-reference/internal/domain/customer/entity"
-	"golang-clean-arch-reference/internal/infraestructure/database/postgres"
+	"golang-clean-arch-reference/internal/infraestructure/database/sqlite"
 	"golang-clean-arch-reference/internal/infraestructure/persistence/customer"
 	"testing"
 
@@ -10,9 +10,9 @@ import (
 )
 
 func TestUseCaseCustomerListHandler_Integration(t *testing.T) {
-	postgres.PGSetup()
+	sqlite.SQLiteSetup()
 
-	customerRepository := customer.NewCustomer(postgres.PG)
+	customerRepository := customer.NewCustomer(sqlite.Sqlite)
 
 	firstItemID := "my-uuid-1"
 	firstItemName := "my name 1"

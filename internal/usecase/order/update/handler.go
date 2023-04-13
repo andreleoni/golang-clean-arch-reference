@@ -22,12 +22,13 @@ func (uccuh UseCaseOrderUpdateHandler) Handle(icfd InputOrderUpdateDTO) (OutputO
 	}
 
 	if order.ID == "" {
-		return response, fmt.Errorf("customer not found")
+		return response, fmt.Errorf("order not found")
 	}
 
 	order.ProductID = icfd.ProductID
 	order.CustomerID = icfd.CustomerID
 	order.Quantity = icfd.Quantity
+	order.Address = icfd.Address
 
 	order.Validate()
 
@@ -44,6 +45,7 @@ func (uccuh UseCaseOrderUpdateHandler) Handle(icfd InputOrderUpdateDTO) (OutputO
 	response.ProductID = order.ProductID
 	response.CustomerID = order.CustomerID
 	response.Quantity = order.Quantity
+	response.Address = order.Address
 
 	return response, nil
 }

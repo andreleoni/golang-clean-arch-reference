@@ -17,7 +17,7 @@ func (uccfh UseCaseOrderFindHandler) Handle(icfd InputOrderFindDTO) (OutputOrder
 
 	order, err := uccfh.orderRepository.Find(icfd.ID)
 	if err != nil {
-		if err.Error() == "pg: no rows in result set" {
+		if err.Error() == "record not found" {
 			return response, nil
 		}
 

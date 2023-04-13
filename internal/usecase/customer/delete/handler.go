@@ -18,7 +18,7 @@ func (uccuh UseCaseCustomerDeleteHandler) Handle(icfd InputCustomerDeleteDTO) (O
 
 	customer, err := uccuh.customerRepository.Find(icfd.ID)
 	if err != nil {
-		if err.Error() == "pg: no rows in result set" {
+		if err.Error() == "record not found" {
 			return response, fmt.Errorf("customer not found")
 		}
 

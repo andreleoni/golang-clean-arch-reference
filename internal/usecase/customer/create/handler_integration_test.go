@@ -1,7 +1,7 @@
 package create
 
 import (
-	"golang-clean-arch-reference/internal/infraestructure/database/postgres"
+	"golang-clean-arch-reference/internal/infraestructure/database/sqlite"
 	"golang-clean-arch-reference/internal/infraestructure/persistence/customer"
 	"testing"
 
@@ -9,9 +9,9 @@ import (
 )
 
 func TestUseCaseCustomerCreateHandler_Integration(t *testing.T) {
-	postgres.PGSetup()
+	sqlite.SQLiteSetup()
 
-	customerRepository := customer.NewCustomer(postgres.PG)
+	customerRepository := customer.NewCustomer(sqlite.Sqlite)
 
 	expectedName := "my name"
 

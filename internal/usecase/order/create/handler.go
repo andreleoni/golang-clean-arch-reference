@@ -17,7 +17,12 @@ func (uccch UseCaseOrderCreateHandler) Handle(iocd InputOrderCreateDTO) (OutputO
 	response := OutputOrderCreateDTO{}
 
 	orderFactory := factory.NewOrderFactory()
-	order := orderFactory.Create(iocd.ProductID, iocd.CustomerID, iocd.Quantity)
+	order := orderFactory.Create(
+		iocd.ProductID,
+		iocd.CustomerID,
+		iocd.Quantity,
+		iocd.Address,
+	)
 
 	order.Validate()
 

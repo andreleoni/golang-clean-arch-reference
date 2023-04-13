@@ -1,6 +1,7 @@
 package find
 
 import (
+	"fmt"
 	"golang-clean-arch-reference/internal/domain/product/repository"
 )
 
@@ -17,7 +18,8 @@ func (uccfh UseCaseProductFindHandler) Handle(ipfd InputProductFindDTO) (OutputP
 
 	result, err := uccfh.productRepository.Find(ipfd.ID)
 	if err != nil {
-		if err.Error() == "pg: no rows in result set" {
+		fmt.Println(err)
+		if err.Error() == "record not found" {
 			return response, nil
 		}
 

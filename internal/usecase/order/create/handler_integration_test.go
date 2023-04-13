@@ -1,7 +1,7 @@
 package create
 
 import (
-	"golang-clean-arch-reference/internal/infraestructure/database/postgres"
+	"golang-clean-arch-reference/internal/infraestructure/database/sqlite"
 	orderpersistence "golang-clean-arch-reference/internal/infraestructure/persistence/order"
 	"testing"
 
@@ -9,9 +9,9 @@ import (
 )
 
 func TestUseCaseOrderCreateHandler_Integration(t *testing.T) {
-	postgres.PGSetup()
+	sqlite.SQLiteSetup()
 
-	ordersRepository := orderpersistence.NewOrder(postgres.PG)
+	ordersRepository := orderpersistence.NewOrder(sqlite.Sqlite)
 
 	expectedProductID := "product-uuid-1"
 	expectedCustomerID := "customer-uuid-1"

@@ -3,7 +3,7 @@ package entities
 import "fmt"
 
 type Notificator struct {
-	Errors []error `sql:"-"`
+	Errors []error `gorm:"-"`
 }
 
 func (n *Notificator) Validate() {

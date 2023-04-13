@@ -3,39 +3,37 @@ package customer
 import (
 	"golang-clean-arch-reference/internal/domain/product/entity"
 
-	"github.com/go-pg/pg"
+	"gorm.io/gorm"
 )
 
 type Product struct {
-	pg *pg.DB
+	sqlite *gorm.DB
 }
 
-func NewProduct(pg *pg.DB) Product {
-	return Product{pg: pg}
+func NewProduct(sqlite *gorm.DB) Product {
+	return Product{sqlite: sqlite}
 }
 
 func (c Product) List() ([]*entity.Product, error) {
 	product := []*entity.Product{}
-	err := c.pg.Model(&product).Select()
+	result := c.sqlite.Find(&product)
 
-	return product, err
+	return product, result.Error
 }
 
 func (c Product) Find(ID string) (*entity.Product, error) {
 	product := entity.Product{ID: ID}
-	err := c.pg.Model(&product).WherePK().Select()
+	result := c.sqlite.First(&product)
 
-	return &product, err
+	return &product, result.Error
 }
 
 func (c Product) Create(ep *entity.Product) error {
-	return c.pg.Insert(ep)
+	return c.sqlite.Create(&ep).Error
 }
 
 func (c Product) Update(ep *entity.Product) error {
-	_, err := c.pg.Model(ep).Set("name = ?name, status = ?status, price = ?price").Where("id = ?id").Update()
-
-	return err
+	return c.sqlite.Save(&ep).Error
 }
 
 func (c Product) Enable(ep *entity.Product) error {

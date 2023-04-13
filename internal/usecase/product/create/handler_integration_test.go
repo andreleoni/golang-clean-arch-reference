@@ -1,7 +1,7 @@
 package create
 
 import (
-	"golang-clean-arch-reference/internal/infraestructure/database/postgres"
+	"golang-clean-arch-reference/internal/infraestructure/database/sqlite"
 	productpersistence "golang-clean-arch-reference/internal/infraestructure/persistence/product"
 	"testing"
 
@@ -9,9 +9,9 @@ import (
 )
 
 func TestUseCaseProductCreateHandler_Integration(t *testing.T) {
-	postgres.PGSetup()
+	sqlite.SQLiteSetup()
 
-	productRepository := productpersistence.NewProduct(postgres.PG)
+	productRepository := productpersistence.NewProduct(sqlite.Sqlite)
 
 	expectedName := "my name"
 	expectedStatus := "enabled"

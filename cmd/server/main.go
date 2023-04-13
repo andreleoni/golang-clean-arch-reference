@@ -2,11 +2,11 @@ package main
 
 import (
 	"golang-clean-arch-reference/internal/infraestructure/api"
-	"golang-clean-arch-reference/internal/infraestructure/database/postgres"
+	"golang-clean-arch-reference/internal/infraestructure/database/sqlite"
 )
 
 func main() {
-	postgres.PGSetup()
+	sqlite.SQLiteSetup()
 
 	api.Start()
 }

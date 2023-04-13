@@ -2,7 +2,7 @@ package update
 
 import (
 	"golang-clean-arch-reference/internal/domain/product/entity"
-	"golang-clean-arch-reference/internal/infraestructure/database/postgres"
+	"golang-clean-arch-reference/internal/infraestructure/database/sqlite"
 	productpersistence "golang-clean-arch-reference/internal/infraestructure/persistence/product"
 	"testing"
 
@@ -10,9 +10,9 @@ import (
 )
 
 func TestUseCaseProductUpdateHandler_Integration(t *testing.T) {
-	postgres.PGSetup()
+	sqlite.SQLiteSetup()
 
-	productRepository := productpersistence.NewProduct(postgres.PG)
+	productRepository := productpersistence.NewProduct(sqlite.Sqlite)
 
 	startProductID := "my-uuid"
 	startProductName := "my name"

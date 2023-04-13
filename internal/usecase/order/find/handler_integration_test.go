@@ -2,7 +2,8 @@ package find
 
 import (
 	"golang-clean-arch-reference/internal/domain/order/entity"
-	"golang-clean-arch-reference/internal/infraestructure/database/postgres"
+	"golang-clean-arch-reference/internal/domain/valueobject"
+	"golang-clean-arch-reference/internal/infraestructure/database/sqlite"
 	orderpersistence "golang-clean-arch-reference/internal/infraestructure/persistence/order"
 	"testing"
 
@@ -10,9 +11,9 @@ import (
 )
 
 func TestUseCaseOrderFindHandler_Integration(t *testing.T) {
-	postgres.PGSetup()
+	sqlite.SQLiteSetup()
 
-	orderRepository := orderpersistence.NewOrder(postgres.PG)
+	orderRepository := orderpersistence.NewOrder(sqlite.Sqlite)
 
 	expectedID := "oder-uuid"
 	expectedProductID := "product-uuid-1"
@@ -24,6 +25,14 @@ func TestUseCaseOrderFindHandler_Integration(t *testing.T) {
 		ProductID:  expectedProductID,
 		CustomerID: expectedCustomerID,
 		Quantity:   uint64(expectedQuantity),
+		Address: valueobject.Address{
+			Street:     "my street",
+			Number:     "123",
+			Complement: "my complement",
+			Zipcode:    "89219333",
+			City:       "Joinville",
+			Province:   "SC",
+		},
 	}
 
 	err := orderRepository.Create(&order)
@@ -44,5 +53,11 @@ func TestUseCaseOrderFindHandler_Integration(t *testing.T) {
 		assert.Equal(t, findResult.ProductID, expectedProductID)
 		assert.Equal(t, findResult.CustomerID, expectedCustomerID)
 		assert.Equal(t, findResult.Quantity, uint64(2))
+		assert.Equal(t, findResult.Address.Street, order.Address.Street)
+		assert.Equal(t, findResult.Address.Number, order.Address.Number)
+		assert.Equal(t, findResult.Address.Complement, order.Address.Complement)
+		assert.Equal(t, findResult.Address.Zipcode, order.Address.Zipcode)
+		assert.Equal(t, findResult.Address.City, order.Address.City)
+		assert.Equal(t, findResult.Address.Province, order.Address.Province)
 	})
 }

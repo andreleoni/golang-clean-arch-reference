@@ -2,7 +2,7 @@ package delete
 
 import (
 	"golang-clean-arch-reference/internal/domain/customer/entity"
-	"golang-clean-arch-reference/internal/infraestructure/database/postgres"
+	"golang-clean-arch-reference/internal/infraestructure/database/sqlite"
 	"golang-clean-arch-reference/internal/infraestructure/persistence/customer"
 	"testing"
 
@@ -10,9 +10,9 @@ import (
 )
 
 func TestUseCaseCustomerDeleteHandler_Integration(t *testing.T) {
-	postgres.PGSetup()
+	sqlite.SQLiteSetup()
 
-	customerRepository := customer.NewCustomer(postgres.PG)
+	customerRepository := customer.NewCustomer(sqlite.Sqlite)
 
 	expectedID := "my-uuid"
 	expectedName := "my name"
@@ -32,6 +32,6 @@ func TestUseCaseCustomerDeleteHandler_Integration(t *testing.T) {
 
 		_, err = customerRepository.Find(expectedID)
 
-		assert.Equal(t, err.Error(), "pg: no rows in result set")
+		assert.Equal(t, err.Error(), "record not found")
 	})
 }

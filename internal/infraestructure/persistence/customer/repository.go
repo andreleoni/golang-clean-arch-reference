@@ -3,43 +3,45 @@ package customer
 import (
 	"golang-clean-arch-reference/internal/domain/customer/entity"
 
-	"github.com/go-pg/pg"
+	"gorm.io/gorm"
 )
 
 type Customer struct {
-	pg *pg.DB
+	sqlite *gorm.DB
 }
 
-func NewCustomer(pg *pg.DB) Customer {
-	return Customer{pg: pg}
+func NewCustomer(sqlite *gorm.DB) Customer {
+	return Customer{sqlite: sqlite}
 }
 
 func (c Customer) List() ([]*entity.Customer, error) {
 	customer := []*entity.Customer{}
-	err := c.pg.Model(&customer).Select()
+	result := c.sqlite.Find(&customer)
 
-	return customer, err
+	return customer, result.Error
 }
 
 func (c Customer) Find(ID string) (*entity.Customer, error) {
 	customer := entity.Customer{ID: ID}
-	err := c.pg.Model(&customer).WherePK().Select()
+	result := c.sqlite.First(&customer)
 
-	return &customer, err
+	return &customer, result.Error
 }
 
 func (c Customer) Create(ec *entity.Customer) error {
-	return c.pg.Insert(ec)
+	result := c.sqlite.Create(&ec)
+
+	return result.Error
 }
 
 func (c Customer) Update(ec *entity.Customer) error {
-	_, err := c.pg.Model(ec).Set("name = ?name").Where("id = ?id").Update()
+	result := c.sqlite.Save(&ec)
 
-	return err
+	return result.Error
 }
 
 func (c Customer) Delete(ec *entity.Customer) error {
-	_, err := c.pg.Model(ec).Where("id = ?id").Delete()
+	result := c.sqlite.Delete(&ec)
 
-	return err
+	return result.Error
 }

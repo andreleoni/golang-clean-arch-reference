@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"golang-clean-arch-reference/internal/infraestructure/database/postgres"
+	"golang-clean-arch-reference/internal/infraestructure/database/sqlite"
 	"golang-clean-arch-reference/internal/infraestructure/persistence/customer"
 	customercreate "golang-clean-arch-reference/internal/usecase/customer/create"
 	customerdelete "golang-clean-arch-reference/internal/usecase/customer/delete"
@@ -26,7 +26,7 @@ type UpdateCustomer struct {
 }
 
 func CustomerRoutes(routes *gin.Engine) {
-	customerRepository := customer.NewCustomer(postgres.PG)
+	customerRepository := customer.NewCustomer(sqlite.Sqlite)
 
 	routes.GET("/customer/:id", func(c *gin.Context) {
 		customerID := FindCustomerID{}
