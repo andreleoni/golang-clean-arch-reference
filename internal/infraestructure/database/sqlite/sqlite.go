@@ -13,10 +13,10 @@ import (
 var Sqlite *gorm.DB
 
 func SQLiteSetup() {
-	file, _ := os.OpenFile("/home/leoni/Documents/personal/golang-clean-arch-reference/gorm.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	file, _ := os.OpenFile("./temp/gorm.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 
 	sqlite, err := gorm.Open(
-		sqlite.Open("/home/leoni/Documents/personal/golang-clean-arch-reference/development.db"),
+		sqlite.Open("./temp/development.db"),
 		&gorm.Config{
 			Logger: logger.New(
 				log.New(file, "\r\n", log.LstdFlags), // set log file and format
