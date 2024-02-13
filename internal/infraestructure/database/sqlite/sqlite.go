@@ -13,10 +13,30 @@ import (
 var Sqlite *gorm.DB
 
 func SQLiteSetup() {
-	file, _ := os.OpenFile("./temp/gorm.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	file, _ := os.OpenFile("gorm.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+
+	dbFilePath := "development.db"
+
+	// If the file doesn't exist, create it
+
+	// You can use a database creation command here if you're using a specific database
+	// For example, if you're using SQLite, you can use the following command:
+	// cmd := exec.Command("sqlite3", dbFilePath)
+
+	// In this example, we'll just create an empty file for demonstration purposes
+	if _, err := os.Stat(dbFilePath); os.IsNotExist(err) {
+		file, err := os.Create(dbFilePath)
+		if err != nil {
+			fmt.Println("Error creating database file:", err)
+			return
+		}
+		defer file.Close()
+
+		fmt.Println("Database file created successfully.")
+	}
 
 	sqlite, err := gorm.Open(
-		sqlite.Open("./temp/development.db"),
+		sqlite.Open(dbFilePath),
 		&gorm.Config{
 			Logger: logger.New(
 				log.New(file, "\r\n", log.LstdFlags), // set log file and format
